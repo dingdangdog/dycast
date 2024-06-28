@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { DyClient, handleMessage } from '../utils/client';
-import { getRoomInfoApi } from '@/api/commonApi';
+import { getRoomInfoApi, ttsApi } from '@/api/commonApi';
 import { ref, inject, onMounted, type Ref } from 'vue';
 
 // 房间号
@@ -183,18 +183,23 @@ function handleChat(data: Mess) {
   let type = data.type;
   switch (type) {
     case 'chat':
+      ttsApi(`${data.nickname}说：${data.content}`)
       chatList!.push(data);
       break;
     case 'member':
+      ttsApi(`欢迎 ${data.nickname}`)
       memberCount.value = data.memberCount;
       break;
     case 'like':
+      ttsApi(`感谢${data.nickname}${data.content}`)
       likeCount.value = data.likeCount;
       break;
     case 'gift':
+      ttsApi(`感谢${data.nickname}送出的${data.gift.count}个${data.gift.name}`)
       chatList!.push(data);
       break;
     case 'social':
+      ttsApi(`感谢${data.nickname}的关注`)
       followCount.value = data.followCount;
       break;
     case 'room':

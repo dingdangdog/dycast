@@ -18,26 +18,26 @@ export const getRoomInfoApi = function (roomNumber: string) {
       const REGLIST = [
         {
           reg: /\\{1,7}"/g,
-          str: '"'
+          str: '"',
         },
         {
           reg: /"\{/g,
-          str: '{'
+          str: "{",
         },
         {
           reg: /\}"/g,
-          str: '}'
+          str: "}",
         },
         {
           reg: /"\[/g,
-          str: '['
+          str: "[",
         },
         {
           reg: /\]"/g,
-          str: ']'
-        }
+          str: "]",
+        },
       ];
-      if (!matchRes) throw new Error('房间信息获取失败');
+      if (!matchRes) throw new Error("房间信息获取失败");
       // 获取目标信息编码字符串，替换其中的转义字符
       let json: string = matchRes[1];
       for (const REG of REGLIST) {
@@ -45,20 +45,28 @@ export const getRoomInfoApi = function (roomNumber: string) {
       }
       // let dict = JSON.parse(decodeURIComponent(matchRes[1]));
       const dict = JSON.parse(json);
-      let roomId = dict['state']['roomStore']['roomInfo']['roomId'];
-      let roomTitle = dict['state']['roomStore']['roomInfo']['room']['title'];
-      let roomUserCount = dict['state']['roomStore']['roomInfo']['room']['user_count_str'];
-      let uniqueId = dict['state']['userStore']['odin']['user_unique_id'];
-      let avatar = dict['state']['roomStore']['roomInfo']['anchor']['avatar_thumb']['url_list'][0];
+      let roomId = dict["state"]["roomStore"]["roomInfo"]["roomId"];
+      let roomTitle = dict["state"]["roomStore"]["roomInfo"]["room"]["title"];
+      let roomUserCount =
+        dict["state"]["roomStore"]["roomInfo"]["room"]["user_count_str"];
+      let uniqueId = dict["state"]["userStore"]["odin"]["user_unique_id"];
+      let avatar =
+        dict["state"]["roomStore"]["roomInfo"]["anchor"]["avatar_thumb"][
+          "url_list"
+        ][0];
       return {
         roomId,
         roomTitle,
         roomUserCount,
         uniqueId,
-        avatar
+        avatar,
       };
     })
     .catch((err: any) => {
       return err;
     });
+};
+
+export const ttsApi = function (text: string) {
+  return axios.get("/tts?text=" + text).then();
 };

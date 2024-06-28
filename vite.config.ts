@@ -20,6 +20,11 @@ export default defineConfig({
         target: 'https://live.douyin.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dy/, '')
+      },
+      '/tts': {
+        target: 'http://127.0.0.1:1773/tts',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/tts/, '')
       }
     }
   }
